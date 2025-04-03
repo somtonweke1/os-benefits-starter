@@ -105,3 +105,37 @@ This will execute:
    - Check webhook connectivity
    - Verify queue worker status
    - Monitor sync logs 
+
+## Docker Environment Validation
+
+### 1. Verify Configuration
+```bash
+# Check Docker Compose configuration
+docker-compose config
+
+# Expected: No errors, all services listed
+```
+
+### 2. Test Service Health
+```bash
+# Start services and run tests
+chmod +x test.sh
+./test.sh
+
+# Expected: All services show "healthy"
+docker-compose ps
+```
+
+### Common Issues
+
+1. **Port Conflicts**
+   ```bash
+   # Find and kill processes using required ports
+   lsof -i :3000 | awk 'NR!=1 {print $2}' | xargs kill -9
+   ```
+
+2. **Dependency Issues**
+   ```bash
+   # Rebuild with clean volumes
+   docker-compose down -v && docker-compose up --force-recreate --build
+   ``` 

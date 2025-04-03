@@ -10,6 +10,11 @@ services:
     depends_on:
       - redis
       - mysql
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   nuxt:
     build: ./frontend
@@ -17,6 +22,11 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend:/app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   directus:
     image: directus/directus:latest
@@ -39,12 +49,27 @@ services:
       - ./directus/schema:/directus/schema
     depends_on:
       - mysql
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8055"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   redis:
     image: redis:alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   mysql:
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: os_benefits 
+      MYSQL_DATABASE: os_benefits
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 20s
+      retries: 10 

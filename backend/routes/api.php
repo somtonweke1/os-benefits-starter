@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cache;
 use App\Models\Benefits;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 
 // Auth routes
 Route::post('login', [AuthController::class, 'login']);
@@ -26,4 +28,27 @@ Route::middleware('auth:api')->group(function () {
         );
         return response()->json(['status' => 'synced']);
     })->middleware('role:admin');
+});
+
+// Health check endpoint
+Route::get('/health', function () {
+    try {
+        // Test database connection
+        DB::connection()->getPdo();
+        // Test Redis connection
+        Redis::ping();
+        
+        return response()->json([
+            'status' => 'healthy',
+            'services' => [
+                'database' => 'connected',
+                'redis' => 'connected'
+            ]
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'unhealthy',
+            'error' => $e->getMessage()
+        ], 500);
+    }
 }); 
