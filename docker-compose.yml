@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  laravel:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/var/www/html
+    depends_on:
+      - redis
+      - mysql
+
+  nuxt:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+
+  directus:
+    image: directus/directus:latest
+    ports:
+      - "8055:8055"
+    environment:
+      DB_CLIENT: mysql
+      DB_HOST: mysql
+      DB_DATABASE: os_benefits
+      DB_USER: root
+      DB_PASSWORD: secret
+
+  redis:
+    image: redis:alpine
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: os_benefits 
