@@ -1,1 +1,8 @@
- 
+{
+    "scripts": {
+        "test": [
+            "php artisan test",
+            "php artisan test:benchmark"
+        ]
+    }
+} 

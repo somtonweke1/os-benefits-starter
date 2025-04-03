@@ -23,11 +23,22 @@ services:
     ports:
       - "8055:8055"
     environment:
-      DB_CLIENT: mysql
-      DB_HOST: mysql
-      DB_DATABASE: os_benefits
-      DB_USER: root
-      DB_PASSWORD: secret
+      KEY: '255d861b-5ea1-5996-9aa3-922530ec40b1'
+      SECRET: '6116487b-cda1-52c2-b5b5-c8022c45e263'
+      DB_CLIENT: 'mysql'
+      DB_HOST: 'mysql'
+      DB_PORT: '3306'
+      DB_DATABASE: 'os_benefits'
+      DB_USER: 'root'
+      DB_PASSWORD: 'secret'
+      ADMIN_EMAIL: 'admin@example.com'
+      ADMIN_PASSWORD: 'admin'
+      PUBLIC_URL: 'http://localhost:8055'
+    volumes:
+      - ./directus/hooks.yaml:/directus/hooks.yaml
+      - ./directus/schema:/directus/schema
+    depends_on:
+      - mysql
 
   redis:
     image: redis:alpine

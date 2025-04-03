@@ -1,1 +1,5 @@
- 
+- name: content_updated
+  url: http://laravel:8000/api/content-sync
+  actions:
+    - "items.update"
+    - "items.create" 

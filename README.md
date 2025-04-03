@@ -3,6 +3,8 @@
 **Production-Ready Solution for Benefits Management Challenges**  
 *Directly addresses technical requirements from OS BENEFiTS job posting*
 
+[![Testing Protocol](https://img.shields.io/badge/Validate_Results-Testing_Guide-blue)](./TESTING_GUIDE.md)
+
 ## 🎯 Problem-Solution Map
 
 | Job Post Requirement | Implemented Solution | Validation Method |
@@ -33,6 +35,8 @@ open http://localhost:3000
 ## 🔍 Validation Guide
 
 Built-in measurable outcomes you can verify immediately:
+
+For detailed validation steps, see our [Testing Guide](./TESTING_GUIDE.md)
 
 ### 1. API Performance
 ```bash
